@@ -1,0 +1,4 @@
+// Apply the java plugin to add support for Java
+apply plugin: 'application'
+mainClassName='Main'
+sourceSets.main.java.srcDirs=['.']
