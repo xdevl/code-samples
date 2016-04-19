@@ -302,6 +302,9 @@ public class Main
 
         public boolean play(Order order)
         {
+			if(mCurrentTime<order.mOrderTime.getTime())
+				mCurrentTime=order.mOrderTime.getTime() ;
+			
             if(!(getLastOperationEndTime()-order.mOrderTime.getTime()<=mMaxOrderCompletionTime
                     && getLastOperationEndTime()-getFirstOperationEndTime()<=mMaxServedFoodTime))
             {
