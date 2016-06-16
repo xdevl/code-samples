@@ -6,13 +6,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import com.xdevl.suggest.R;
+import com.xdevl.suggest.Settings;
 import com.xdevl.suggest.bean.Word;
 import com.xdevl.suggest.service.SuggestService;
 
 public class SuggestActivity extends AppCompatActivity implements SuggestionFragment.InputProvider, WordAdapter.OnSelectListener
 {
-    public static final String INTENT_ACTION_RESULT="com.xdevl.suggest.action.ACTION_RESULT" ;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -46,7 +45,7 @@ public class SuggestActivity extends AppCompatActivity implements SuggestionFrag
     @Override
     public void onSelect(Word word)
     {
-        Intent result=new Intent(INTENT_ACTION_RESULT) ;
+        Intent result=new Intent(Settings.INTENT_ACTION_RESULT) ;
         result.putExtra(Intent.EXTRA_TEXT,word.getValue()) ;
         setResult(Activity.RESULT_OK) ;
         finish() ;

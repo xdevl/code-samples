@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.xdevl.suggest.R;
+import com.xdevl.suggest.Settings;
 import com.xdevl.suggest.bean.Word;
 import com.xdevl.suggest.model.dao.WordDao;
-import com.xdevl.suggest.service.SuggestService;
 import com.xdevl.suggest.service.SuggestionLoader;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class SuggestionFragment extends Fragment implements LoaderManager.Loader
     @Override
     public View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container,@Nullable Bundle savedInstanceState)
     {
-        mWordDao=SuggestService.getWordDao(getContext()) ;
+        mWordDao=Settings.getWordDao(getContext()) ;
         mAdapter=new WordAdapter(getActivity()instanceof WordAdapter.OnSelectListener?(WordAdapter.OnSelectListener)getActivity():null) ;
         View view=inflater.inflate(R.layout.fragment_suggest,container,false) ;
         mTextView=(TextView)view.findViewById(R.id.msg) ;

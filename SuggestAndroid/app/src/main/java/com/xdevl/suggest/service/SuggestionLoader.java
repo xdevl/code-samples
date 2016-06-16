@@ -2,6 +2,7 @@ package com.xdevl.suggest.service;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
+import com.xdevl.suggest.Settings;
 import com.xdevl.suggest.bean.Word;
 import com.xdevl.suggest.model.dao.WordDao;
 
@@ -27,7 +28,7 @@ public class SuggestionLoader extends AsyncTaskLoader<List<Word>>
     {
         try {
             mException=null ;
-            return mWordDao.lookup(mValue,0) ;
+            return mWordDao.lookup(mValue,Settings.MAX_LOOKUP_RESULTS) ;
         } catch(IOException e) {
             mException=e ;
             return new ArrayList<>() ;
