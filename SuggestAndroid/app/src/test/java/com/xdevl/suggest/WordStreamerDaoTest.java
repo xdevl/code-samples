@@ -80,4 +80,24 @@ public class WordStreamerDaoTest
         List<Word> results=wordDao.lookup("gr",1) ;
         Assert.assertTrue(results.size()==1) ;
     }
+
+    @Test
+    public void DuplicateLookup() throws IOException
+    {
+        WordDao wordDao=new WordStreamerDao(new MemoryStreamer()) ;
+        wordDao.populate(new WordReaderIterator(new StringReader("red\ngreen\nblue\nred"))) ;
+        List<Word> results=wordDao.lookup("re",1) ;
+        Assert.assertTrue(results.size()==1) ;
+        Assert.assertEquals(results.get(0).getValue(),"red") ;
+    }
+
+    @Test
+    public void CaseSensitivityLookup() throws IOException
+    {
+        WordDao wordDao=new WordStreamerDao(new MemoryStreamer()) ;
+        wordDao.populate(new WordReaderIterator(new StringReader("red\ngreen\nbLuE\nred"))) ;
+        List<Word> results=wordDao.lookup("BLue",1) ;
+        Assert.assertTrue(results.size()==1) ;
+        Assert.assertEquals(results.get(0).getValue(),"blue") ;
+    }
 }

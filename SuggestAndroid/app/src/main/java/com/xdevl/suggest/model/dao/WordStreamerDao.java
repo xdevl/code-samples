@@ -7,7 +7,9 @@ import com.xdevl.suggest.model.streamer.Streamer;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Implementation of {@link WordDao} using a {@link Streamer} as storage strategy.
@@ -25,11 +27,13 @@ public class WordStreamerDao implements WordDao
     @Override
     public List<Word> lookup(String value, int max) throws IOException
     {
-        List<Word> results=new ArrayList<>() ;
+        // We start with a set as we don't want to return duplicates
+        Set<Word> results=new HashSet<>() ;
         // Sanity checks
         if(value==null || value.isEmpty())
-            return results;
+            return new ArrayList<>(results) ;
 
+        value=value.toLowerCase() ;
         final IOIterator<Word> iterator=iterator() ;
         try {
             while(iterator.hasNext() && (max<1 || results.size()<max))
@@ -44,7 +48,7 @@ public class WordStreamerDao implements WordDao
             try { iterator.close(); } catch(IOException _e) {}
             throw e ;
         }
-        return results;
+        return new ArrayList<>(results) ;
     }
 
     @Override
@@ -58,7 +62,7 @@ public class WordStreamerDao implements WordDao
         try {
             while(iterator.hasNext())
             {
-                writer.write(iterator.next().getValue());
+                writer.write(iterator.next().getValue().toLowerCase());
                 writer.newLine();
             }
             writer.close() ;
