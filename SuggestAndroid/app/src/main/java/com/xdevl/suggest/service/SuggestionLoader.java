@@ -26,11 +26,18 @@ public class SuggestionLoader extends AsyncTaskLoader<List<Word>>
     public List<Word> loadInBackground()
     {
         try {
-            return mWordDao.lookup(mValue);
+            mException=null ;
+            return mWordDao.lookup(mValue) ;
         } catch(IOException e) {
             mException=e ;
             return new ArrayList<>() ;
         }
+    }
+
+    @Override
+    protected void onStartLoading()
+    {
+        forceLoad() ;
     }
 
     public Exception getException()

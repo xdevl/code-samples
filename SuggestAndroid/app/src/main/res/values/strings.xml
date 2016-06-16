@@ -2,4 +2,5 @@
     <string name="app_name">Suggest</string>
     <string name="msg_loading">Loading...</string>
     <string name="msg_empty">No suggestions</string>
+    <string name="msg_enter_input">Type some text to get suggestions</string>
 </resources>

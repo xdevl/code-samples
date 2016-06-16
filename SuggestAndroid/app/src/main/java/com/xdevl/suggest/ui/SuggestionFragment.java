@@ -42,10 +42,14 @@ public class SuggestionFragment extends Fragment implements LoaderManager.Loader
         mRecyclerView=(RecyclerView)view.findViewById(R.id.suggestions) ;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext())) ;
         mRecyclerView.setAdapter(mAdapter) ;
-
-        getActivity().getSupportLoaderManager().initLoader(0,null,this).forceLoad() ;
-
         return view ;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState) ;
+        getActivity().getSupportLoaderManager().initLoader(0,null,this) ;
     }
 
     @Override
@@ -74,5 +78,10 @@ public class SuggestionFragment extends Fragment implements LoaderManager.Loader
         mTextView.setText(R.string.msg_loading) ;
         mTextView.setVisibility(View.VISIBLE) ;
         mRecyclerView.setVisibility(View.GONE) ;
+    }
+
+    public void refresh()
+    {
+        getActivity().getSupportLoaderManager().restartLoader(0,null,this) ;
     }
 }
