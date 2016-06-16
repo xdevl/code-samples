@@ -73,6 +73,10 @@ public class WordStreamerDao implements WordDao
     @Override
     public IOIterator<Word> iterator() throws IOException
     {
-        return new WordReaderIterator(mStreamer.getReader()) ;
+        try {
+            return new WordReaderIterator(mStreamer.getReader());
+        } catch(FileNotFoundException e) {
+            return new WordReaderIterator(new StringReader("")) ;
+        }
     }
 }
