@@ -15,10 +15,11 @@ public interface WordDao
     /**
      * Lookup for a list of words starting with {@value}
      * @param value the value to lookup
+     * @param value the maximum number of matching words to return (ignored if less than one)
      * @return a list of words starting with {@code value}. If {@code value} is empty or null, an empty list will be returned
      * @throws IOException if the call failed to complete normally
      */
-    List<Word> lookup(String value) throws IOException ;
+    List<Word> lookup(String value, int max) throws IOException ;
 
     /**
      * Populate the bank of words, old existing words will be discarded.

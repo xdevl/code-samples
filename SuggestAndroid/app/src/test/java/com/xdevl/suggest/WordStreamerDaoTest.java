@@ -31,7 +31,7 @@ public class WordStreamerDaoTest
     public void lookupEmptyWords() throws IOException
     {
         WordDao wordDao=new WordStreamerDao(new MemoryStreamer()) ;
-        Assert.assertTrue(wordDao.lookup("hello").isEmpty()) ;
+        Assert.assertTrue(wordDao.lookup("hello",0).isEmpty()) ;
     }
 
     @Test
@@ -39,8 +39,8 @@ public class WordStreamerDaoTest
     {
         WordDao wordDao=new WordStreamerDao(new MemoryStreamer()) ;
         wordDao.populate(new WordReaderIterator(new StringReader("red\ngreen\nblue"))) ;
-        Assert.assertTrue(wordDao.lookup(null).isEmpty()) ;
-        Assert.assertTrue(wordDao.lookup("").isEmpty()) ;
+        Assert.assertTrue(wordDao.lookup(null,0).isEmpty()) ;
+        Assert.assertTrue(wordDao.lookup("",0).isEmpty()) ;
     }
 
     @Test
@@ -48,7 +48,7 @@ public class WordStreamerDaoTest
     {
         WordDao wordDao=new WordStreamerDao(new MemoryStreamer()) ;
         wordDao.populate(new WordReaderIterator(new StringReader("red\ngreen\nblue"))) ;
-        Assert.assertTrue(wordDao.lookup("yellow").isEmpty()) ;
+        Assert.assertTrue(wordDao.lookup("yellow",0).isEmpty()) ;
     }
 
     @Test
@@ -56,7 +56,7 @@ public class WordStreamerDaoTest
     {
         WordDao wordDao=new WordStreamerDao(new MemoryStreamer()) ;
         wordDao.populate(new WordReaderIterator(new StringReader("red\ngreen\nblue"))) ;
-        List<Word> results=wordDao.lookup("green") ;
+        List<Word> results=wordDao.lookup("green",0) ;
         Assert.assertTrue(results.size()==1) ;
         Assert.assertEquals(results.get(0).getValue(),"green") ;
     }
@@ -66,9 +66,18 @@ public class WordStreamerDaoTest
     {
         WordDao wordDao=new WordStreamerDao(new MemoryStreamer()) ;
         wordDao.populate(new WordReaderIterator(new StringReader("red\ngreen\nblue\ngrey"))) ;
-        List<Word> results=wordDao.lookup("gr") ;
+        List<Word> results=wordDao.lookup("gr",0) ;
         Assert.assertTrue(results.size()==2) ;
         String tmp=results.get(0).getValue()+results.get(1).getValue() ;
         Assert.assertTrue(tmp.equals("greengrey") || tmp.equals("greygreen")) ;
+    }
+
+    @Test
+    public void MaxMatchLookup() throws IOException
+    {
+        WordDao wordDao=new WordStreamerDao(new MemoryStreamer()) ;
+        wordDao.populate(new WordReaderIterator(new StringReader("red\ngreen\nblue\ngrey"))) ;
+        List<Word> results=wordDao.lookup("gr",1) ;
+        Assert.assertTrue(results.size()==1) ;
     }
 }

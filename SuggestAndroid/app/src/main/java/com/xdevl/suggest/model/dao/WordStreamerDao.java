@@ -23,27 +23,28 @@ public class WordStreamerDao implements WordDao
     }
 
     @Override
-    public List<Word> lookup(String value) throws IOException
+    public List<Word> lookup(String value, int max) throws IOException
     {
-        List<Word> words=new ArrayList<>() ;
+        List<Word> results=new ArrayList<>() ;
         // Sanity checks
         if(value==null || value.isEmpty())
-            return words;
+            return results;
 
         final IOIterator<Word> iterator=iterator() ;
         try {
-            while(iterator.hasNext())
+            while(iterator.hasNext() && (max<1 || results.size()<max))
             {
                 Word word=iterator.next() ;
                 if(word.getValue().indexOf(value)==0)
-                    words.add(word) ;
+                    results.add(word) ;
             }
+            iterator.close() ;
         } catch(IOException e) {
             // We do best effort here, trying to close what we can
             try { iterator.close(); } catch(IOException _e) {}
             throw e ;
         }
-        return words;
+        return results;
     }
 
     @Override

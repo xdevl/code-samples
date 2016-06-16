@@ -27,7 +27,7 @@ public class SuggestionLoader extends AsyncTaskLoader<List<Word>>
     {
         try {
             mException=null ;
-            return mWordDao.lookup(mValue) ;
+            return mWordDao.lookup(mValue,0) ;
         } catch(IOException e) {
             mException=e ;
             return new ArrayList<>() ;
