@@ -15,13 +15,14 @@ public interface WordDao
     /**
      * Lookup for a list of words starting with {@value}
      * @param value the value to lookup
-     * @return a list of words starting with {@code value}
+     * @return a list of words starting with {@code value}. If {@code value} is empty or null, an empty list will be returned
      * @throws IOException if the call failed to complete normally
      */
     List<Word> lookup(String value) throws IOException ;
 
     /**
-     * Populate the bank of words, old existing words will be discarded
+     * Populate the bank of words, old existing words will be discarded.
+     * {@code iterator} lifecycle will be managed by the callee (ie: the caller doesn't need to worry about closing it)
      * @param iterator the iterator to fetch the new words from
      * @throws IOException if the call failed to complete normally
      */
