@@ -19,7 +19,7 @@ public class InputActivity extends AppCompatActivity implements SuggestionFragme
         super.onCreate(savedInstanceState) ;
         setContentView(R.layout.activity_input) ;
         mEditText=(EditText)findViewById(R.id.input) ;
-        mSuggestionFragment=(SuggestionFragment)getSupportFragmentManager().findFragmentById(R.id.suggestions) ;
+        mSuggestionFragment=(SuggestionFragment)getSupportFragmentManager().findFragmentById(R.id.fragment) ;
         mEditText.addTextChangedListener(this);
         SuggestService.synchronize(this) ;
     }

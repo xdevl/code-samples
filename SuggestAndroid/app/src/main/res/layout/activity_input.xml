@@ -16,7 +16,7 @@
                   android:layout_height="wrap_content"
                   android:hint="@string/msg_enter_input" />
 
-        <fragment android:id="@+id/suggestions"
+        <fragment android:id="@+id/fragment"
                   android:name="com.xdevl.suggest.ui.SuggestionFragment"
                   android:layout_width="match_parent"
                   android:layout_height="0dp"
