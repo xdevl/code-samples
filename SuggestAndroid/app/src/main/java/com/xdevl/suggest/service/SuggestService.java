@@ -8,11 +8,9 @@ import android.content.Intent;
 import android.util.Log;
 import com.xdevl.suggest.Settings;
 import com.xdevl.suggest.model.dao.WordDao;
-import com.xdevl.suggest.model.iterator.WordReaderIterator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 
 public class SuggestService extends IntentService
@@ -37,9 +35,10 @@ public class SuggestService extends IntentService
         if(Settings.INTENT_ACTION_SYNC.equals(intent.getAction()))
         {
             WordDao wordDao=Settings.getWordDao(getApplicationContext()) ;
+            // For logging file path only, we can't assume the list of words will necessarily come from a file
             File sourceFile=Settings.getWordSourceFile() ;
             try {
-                wordDao.populate(new WordReaderIterator(new FileReader(sourceFile)));
+                wordDao.populate(Settings.geSourcetWordIterator()) ;
                 Log.i(SuggestService.class.getSimpleName(),"Successfully parsed word file at "+sourceFile.getAbsolutePath()+" :)") ;
             } catch(FileNotFoundException e) {
                 Log.i(SuggestService.class.getSimpleName(),"Word file not found at "+sourceFile.getAbsolutePath()+" '-_-") ;

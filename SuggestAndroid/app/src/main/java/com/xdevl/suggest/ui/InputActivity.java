@@ -39,6 +39,8 @@ public class InputActivity extends AppCompatActivity implements SuggestionFragme
     @Override
     public void afterTextChanged(Editable editable)
     {
+        // Ideally we should implement some kind of timer here to avoid
+        // looking up for suggestion too often
         mSuggestionFragment.refresh() ;
     }
 }

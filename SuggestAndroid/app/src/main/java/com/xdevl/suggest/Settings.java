@@ -2,11 +2,16 @@ package com.xdevl.suggest;
 
 import android.content.Context;
 import android.os.Environment;
+import com.xdevl.suggest.bean.Word;
 import com.xdevl.suggest.model.dao.WordDao;
 import com.xdevl.suggest.model.dao.WordStreamerDao;
+import com.xdevl.suggest.model.iterator.IOIterator;
+import com.xdevl.suggest.model.iterator.WordReaderIterator;
 import com.xdevl.suggest.model.streamer.FileStreamer;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Holds constants and various other static application settings.
@@ -23,6 +28,11 @@ public class Settings
     public static File getWordSourceFile()
     {
         return new File(Environment.getExternalStorageDirectory(),"words.txt") ;
+    }
+
+    public static IOIterator<Word> geSourcetWordIterator() throws IOException
+    {
+        return new WordReaderIterator(new FileReader(getWordSourceFile())) ;
     }
 
     public static WordDao getWordDao(Context context)
