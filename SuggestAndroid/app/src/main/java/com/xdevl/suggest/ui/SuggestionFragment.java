@@ -36,7 +36,7 @@ public class SuggestionFragment extends Fragment implements LoaderManager.Loader
     public View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container,@Nullable Bundle savedInstanceState)
     {
         mWordDao=SuggestService.getWordDao(getContext()) ;
-        mAdapter=new WordAdapter() ;
+        mAdapter=new WordAdapter(getActivity()instanceof WordAdapter.OnSelectListener?(WordAdapter.OnSelectListener)getActivity():null) ;
         View view=inflater.inflate(R.layout.fragment_suggest,container,false) ;
         mTextView=(TextView)view.findViewById(R.id.msg) ;
         mRecyclerView=(RecyclerView)view.findViewById(R.id.suggestions) ;

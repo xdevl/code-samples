@@ -18,6 +18,15 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.SuggestActivity"
+                  android:label="@string/title_pick_suggestion">
+            <intent-filter>
+                <action android:name="com.xdevl.suggest.action.ACTION_PICK" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name=".service.SuggestService"
             android:exported="false" />
