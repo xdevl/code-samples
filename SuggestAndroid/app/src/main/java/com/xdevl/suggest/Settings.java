@@ -20,7 +20,6 @@ public class Settings
 {
     public static final String INTENT_SUFFIX="com.xdevl.suggest" ;
     public static final String INTENT_ACTION_RESULT=INTENT_SUFFIX+".action.ACTION_RESULT" ;
-    public static final String INTENT_ACTION_SYNC=INTENT_SUFFIX+".action.ACTION_SYNC" ;
 
     public static final long DELAY_SYNC=5*1000 ; // synchronize every 5 seconds
     public static final int MAX_LOOKUP_RESULTS=100 ; // maximum number of result to return when doing a lookup

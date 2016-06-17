@@ -17,10 +17,10 @@ public class SuggestActivity extends AppCompatActivity implements SuggestionFrag
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggest);
-        SuggestService.synchronize(this) ;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true) ;
         if(savedInstanceState==null)
             getSupportFragmentManager().beginTransaction().add(R.id.content,new SuggestionFragment()).commit() ;
+        startService(new Intent(this,SuggestService.class)) ;
     }
 
     @Override

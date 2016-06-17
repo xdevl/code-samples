@@ -1,5 +1,6 @@
 package com.xdevl.suggest.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -21,7 +22,7 @@ public class InputActivity extends AppCompatActivity implements SuggestionFragme
         mEditText=(EditText)findViewById(R.id.input) ;
         mSuggestionFragment=(SuggestionFragment)getSupportFragmentManager().findFragmentById(R.id.fragment) ;
         mEditText.addTextChangedListener(this);
-        SuggestService.synchronize(this) ;
+        startService(new Intent(this,SuggestService.class)) ;
     }
 
     @Override

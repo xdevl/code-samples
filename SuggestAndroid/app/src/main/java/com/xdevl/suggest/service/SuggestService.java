@@ -1,10 +1,9 @@
 package com.xdevl.suggest.service;
 
-import android.app.AlarmManager;
-import android.app.IntentService;
-import android.app.PendingIntent;
-import android.content.Context;
+import android.app.Service;
 import android.content.Intent;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import com.xdevl.suggest.Settings;
 import com.xdevl.suggest.model.dao.WordDao;
@@ -13,39 +12,47 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class SuggestService extends IntentService
+public class SuggestService extends Service implements Runnable
 {
-    public static void synchronize(Context context)
+    @Override
+    public void onCreate()
     {
-        Intent intent=new Intent(context,SuggestService.class) ;
-        intent.setAction(Settings.INTENT_ACTION_SYNC) ;
-        PendingIntent pendingIntent=PendingIntent.getService(context,0,intent,0) ;
-        AlarmManager alarmManager=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE) ;
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),Settings.DELAY_SYNC,pendingIntent) ;
-    }
-
-    public SuggestService()
-    {
-        super(SuggestService.class.getSimpleName()) ;
+        super.onCreate() ;
+        new Thread(this).start() ;
     }
 
     @Override
-    protected void onHandleIntent(Intent intent)
+    public int onStartCommand(Intent intent,int flags,int startId)
     {
-        if(Settings.INTENT_ACTION_SYNC.equals(intent.getAction()))
+        return START_STICKY ;
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent)
+    {
+        return null ;
+    }
+
+    @Override
+    public void run()
+    {
+        WordDao wordDao=Settings.getWordDao(getApplicationContext()) ;
+        // For logging file path only, we can't assume the list of words will necessarily come from a file
+        File sourceFile=Settings.getWordSourceFile() ;
+        while(true)
         {
-            WordDao wordDao=Settings.getWordDao(getApplicationContext()) ;
-            // For logging file path only, we can't assume the list of words will necessarily come from a file
-            File sourceFile=Settings.getWordSourceFile() ;
             try {
                 wordDao.populate(Settings.geSourcetWordIterator()) ;
                 Log.i(SuggestService.class.getSimpleName(),"Successfully parsed word file at "+sourceFile.getAbsolutePath()+" :)") ;
+                Thread.sleep(Settings.DELAY_SYNC) ;
             } catch(FileNotFoundException e) {
                 Log.i(SuggestService.class.getSimpleName(),"Word file not found at "+sourceFile.getAbsolutePath()+" '-_-") ;
             } catch(IOException e) {
                 Log.e(SuggestService.class.getSimpleName(),"Failed to parse word file at "+sourceFile.getAbsolutePath()+" :(",e) ;
+            } catch(InterruptedException e) {
+                // Don't do anything, this is a START_STICKY service anyway
             }
-
         }
     }
 }
