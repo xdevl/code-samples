@@ -28,7 +28,7 @@ public class WordStreamerDao implements WordDao
     }
 
     @Override
-    public List<Word> lookup(String value,int max) throws IOException
+    public synchronized List<Word> lookup(String value,int max) throws IOException
     {
         // We start with a set as we don't want to return duplicates
         Set<Word> results=new HashSet<>() ;
@@ -55,7 +55,7 @@ public class WordStreamerDao implements WordDao
     }
 
     @Override
-    public void populate(IOIterator<Word> iterator) throws IOException
+    public synchronized void populate(IOIterator<Word> iterator) throws IOException
     {
         // Sanity check
         if(iterator==null)
@@ -78,8 +78,7 @@ public class WordStreamerDao implements WordDao
         }
     }
 
-    @Override
-    public IOIterator<Word> iterator() throws IOException
+    private IOIterator<Word> iterator() throws IOException
     {
         try {
             return new WordReaderIterator(mStreamer.getReader());

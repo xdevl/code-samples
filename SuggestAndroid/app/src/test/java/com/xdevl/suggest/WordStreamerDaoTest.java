@@ -1,32 +1,19 @@
 package com.xdevl.suggest;
 
-import org.junit.Test;
 import com.xdevl.suggest.bean.Word;
 import com.xdevl.suggest.model.dao.WordDao;
 import com.xdevl.suggest.model.dao.WordStreamerDao;
-import com.xdevl.suggest.model.iterator.IOIterator;
 import com.xdevl.suggest.model.iterator.WordReaderIterator;
 import com.xdevl.suggest.model.streamer.MemoryStreamer;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
 
-import org.junit.Assert;
-
 public class WordStreamerDaoTest
 {
-    @Test
-    public void populate() throws IOException
-    {
-        WordDao wordDao=new WordStreamerDao(new MemoryStreamer()) ;
-        wordDao.populate(new WordReaderIterator(new StringReader("hello\nworld")));
-        IOIterator<Word> iterator=wordDao.iterator() ;
-        Assert.assertEquals(iterator.next().getValue(),"hello"); ;
-        Assert.assertEquals(iterator.next().getValue(),"world") ;
-        Assert.assertFalse(iterator.hasNext()) ;
-    }
-
     @Test
     public void lookupEmptyWords() throws IOException
     {

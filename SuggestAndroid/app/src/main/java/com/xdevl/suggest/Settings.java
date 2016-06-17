@@ -36,10 +36,15 @@ public class Settings
         return new WordReaderIterator(new InputStreamReader(new FileInputStream(getWordSourceFile()),SOURCE_ENCODING)) ;
     }
 
-    public static WordDao getWordDao(Context context)
+    public static synchronized WordDao getWordDao(Context context)
     {
-        return new WordStreamerDao(new FileStreamer(new File(context.getFilesDir(),"words.txt"),SOURCE_ENCODING)) ;
+        // Only instantiate a single instance to guarantee thread synchronization
+        if(sWordStreamDao==null)
+            sWordStreamDao=new WordStreamerDao(new FileStreamer(new File(context.getFilesDir(),"words.txt"),SOURCE_ENCODING)) ;
+        return sWordStreamDao ;
     }
+
+    private static WordStreamerDao sWordStreamDao ;
 
     private Settings() {}
 }

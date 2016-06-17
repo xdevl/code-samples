@@ -28,11 +28,4 @@ public interface WordDao
      * @throws IOException if the call failed to complete normally
      */
     void populate(IOIterator<Word> iterator) throws IOException ;
-
-    /** Returns an {@link IOIterator < Word >} to this bank of words.
-     * No assumption can be made about the words order.
-     * @return an iterator to this bank of words
-     * @throws IOException if the call failed to complete normally
-     */
-    IOIterator<Word> iterator() throws IOException ;
 }
