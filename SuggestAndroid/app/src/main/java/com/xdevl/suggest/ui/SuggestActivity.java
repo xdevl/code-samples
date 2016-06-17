@@ -47,7 +47,7 @@ public class SuggestActivity extends AppCompatActivity implements SuggestionFrag
     {
         Intent result=new Intent(Settings.INTENT_ACTION_RESULT) ;
         result.putExtra(Intent.EXTRA_TEXT,word.getValue()) ;
-        setResult(Activity.RESULT_OK) ;
+        setResult(Activity.RESULT_OK,result) ;
         finish() ;
     }
 }
