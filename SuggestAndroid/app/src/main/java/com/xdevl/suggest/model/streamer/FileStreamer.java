@@ -7,22 +7,24 @@ import java.io.*;
  */
 public class FileStreamer implements Streamer
 {
-    private File mFile ;
+    private final File mFile ;
+    private final String mEncoding ;
 
-    public FileStreamer(File file)
+    public FileStreamer(File file, String encoding)
     {
         mFile=file ;
+        mEncoding=encoding ;
     }
 
     @Override
     public Reader getReader() throws IOException
     {
-        return new FileReader(mFile) ;
+        return new InputStreamReader(new FileInputStream(mFile),mEncoding) ;
     }
 
     @Override
     public Writer getWriter() throws IOException
     {
-        return new FileWriter(mFile) ;
+        return new OutputStreamWriter(new FileOutputStream(mFile),mEncoding) ;
     }
 }
