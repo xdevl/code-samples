@@ -35,4 +35,15 @@ public class WordReaderIteratorTest
         Assert.assertEquals(iterator.next().getValue(),"world") ;
         Assert.assertFalse(iterator.hasNext()) ;
     }
+
+    @Test
+    public void TestEmptyLinesAndExtraSpaces() throws IOException
+    {
+        WordReaderIterator iterator=new WordReaderIterator(new StringReader("\n\n   hello   \n\n   world\n\n\n")) ;
+        Assert.assertTrue(iterator.hasNext()) ;
+        Assert.assertEquals(iterator.next().getValue(),"hello") ;
+        Assert.assertTrue(iterator.hasNext()) ;
+        Assert.assertEquals(iterator.next().getValue(),"world") ;
+        Assert.assertFalse(iterator.hasNext()) ;
+    }
 }

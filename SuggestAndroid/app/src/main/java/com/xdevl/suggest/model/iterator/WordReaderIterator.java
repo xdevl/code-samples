@@ -5,7 +5,10 @@ import com.xdevl.suggest.bean.Word;
 import java.io.*;
 
 /**
- * Implementation of {@link IOIterator<Word>} to fetch words from a Java reader
+ * Implementation of {@link IOIterator<Word>} to fetch words from a Java reader.
+ * Each line should only contain a single word, all empty lines (ie: containing only
+ * blank or no characters) are ignored. Spaces at the beginning and end of each lines
+ * will be removed but if there is a space between 2 characters, it will be parsed as part of the word.
  */
 public class WordReaderIterator implements IOIterator<Word>
 {
@@ -20,7 +23,11 @@ public class WordReaderIterator implements IOIterator<Word>
     @Override
     public boolean hasNext() throws IOException
     {
-        return nextLine!=null || (nextLine=mReader.readLine())!=null;
+        if(nextLine!=null)
+            return true ;
+        while((nextLine=mReader.readLine())!=null && (nextLine=nextLine.trim()).isEmpty()) ;
+
+        return nextLine!=null ;
     }
 
     @Override
