@@ -73,15 +73,5 @@ public class SuggestionFragment extends Fragment implements LoaderManager.Loader
     }
 
     @Override
-    public void onLoaderReset(Loader<List<Word>> loader)
-    {
-        mTextView.setText(R.string.msg_loading) ;
-        mTextView.setVisibility(View.VISIBLE) ;
-        mRecyclerView.setVisibility(View.GONE) ;
-    }
-
-    public void refresh()
-    {
-        getActivity().getSupportLoaderManager().restartLoader(0,null,this) ;
-    }
+    public void onLoaderReset(Loader<List<Word>> loader) {}
 }

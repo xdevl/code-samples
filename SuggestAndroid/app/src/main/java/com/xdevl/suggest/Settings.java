@@ -21,6 +21,7 @@ public class Settings
 {
     public static final String INTENT_SUFFIX="com.xdevl.suggest" ;
     public static final String INTENT_ACTION_RESULT=INTENT_SUFFIX+".action.ACTION_RESULT" ;
+    public static final String INTENT_ACTION_REFRESH=INTENT_SUFFIX+".action.ACTION_REFRESH" ;
 
     public static final String SOURCE_ENCODING="UTF-8" ;
     public static final long DELAY_SYNC=5*1000 ; // synchronize every 5 seconds
