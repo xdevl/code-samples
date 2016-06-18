@@ -76,7 +76,8 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder>
     public void populate(List<Word> words)
     {
         mWords.clear() ;
-        mWords.addAll(words) ;
+        if(words!=null)
+            mWords.addAll(words) ;
         notifyDataSetChanged() ;
     }
 }

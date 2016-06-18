@@ -66,7 +66,7 @@ public class SuggestionFragment extends Fragment implements LoaderManager.Loader
         if(exception!=null)
             mTextView.setText(exception.getMessage()) ;
         else mTextView.setText(R.string.msg_empty) ;
-        boolean empty=data.isEmpty() || exception!=null ;
+        boolean empty=exception!=null || data.isEmpty() ;
         mTextView.setVisibility(empty?View.VISIBLE:View.GONE) ;
         mRecyclerView.setVisibility(empty?View.GONE:View.VISIBLE) ;
         mAdapter.populate(data) ;

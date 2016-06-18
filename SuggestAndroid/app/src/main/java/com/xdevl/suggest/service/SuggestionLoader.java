@@ -21,14 +21,22 @@ public class SuggestionLoader extends AsyncTaskLoader<List<Word>>
         @Override
         public void onReceive(Context context,Intent intent)
         {
-            mValue=intent.getStringExtra(Intent.EXTRA_TEXT) ;
-            onContentChanged() ;
+            String newValue=intent.getStringExtra(Intent.EXTRA_TEXT) ;
+            if(!mValue.equals(newValue))
+            {
+                mValue=newValue ;
+                onContentChanged() ;
+            }
+            else if(isStarted() && mResult!=null)
+                deliverResult(mResult) ;
         }
     } ;
 
     private final WordDao mWordDao ;
+    private boolean mRegistered ;
     public String mValue ;
     private Exception mException ;
+    private List<Word> mResult ;
 
     public SuggestionLoader(Context context,WordDao wordDao,String value)
     {
@@ -42,7 +50,8 @@ public class SuggestionLoader extends AsyncTaskLoader<List<Word>>
     {
         try {
             mException=null ;
-            return mWordDao.lookup(mValue,Settings.MAX_LOOKUP_RESULTS) ;
+            mResult=null ;
+            return (mResult=mWordDao.lookup(mValue,Settings.MAX_LOOKUP_RESULTS)) ;
         } catch(IOException e) {
             mException=e ;
             return new ArrayList<>() ;
@@ -52,15 +61,23 @@ public class SuggestionLoader extends AsyncTaskLoader<List<Word>>
     @Override
     protected void onStartLoading()
     {
-        forceLoad() ;
-        LocalBroadcastManager.getInstance(getContext())
-                .registerReceiver(receiver,new IntentFilter(Settings.INTENT_ACTION_REFRESH)) ;
+        if(takeContentChanged() || (mResult==null && mException==null))
+            forceLoad() ;
+        else deliverResult(mResult) ;
+
+        if(!mRegistered)
+        {
+            LocalBroadcastManager.getInstance(getContext())
+                    .registerReceiver(receiver,new IntentFilter(Settings.INTENT_ACTION_REFRESH)) ;
+            mRegistered=true ;
+        }
     }
 
     @Override
     protected void onReset()
     {
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver) ;
+        mRegistered=false ;
     }
 
     public Exception getException()
