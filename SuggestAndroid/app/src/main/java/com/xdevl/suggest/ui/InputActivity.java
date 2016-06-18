@@ -2,18 +2,22 @@ package com.xdevl.suggest.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import com.xdevl.suggest.R;
 import com.xdevl.suggest.Settings;
 import com.xdevl.suggest.service.SuggestService;
-import com.xdevl.suggest.R;
 
-public class InputActivity extends AppCompatActivity implements SuggestionFragment.InputProvider, TextWatcher
+public class InputActivity extends AppCompatActivity implements SuggestionFragment.InputProvider, TextWatcher, Runnable
 {
     private EditText mEditText ;
+    private final Handler mHandler=new Handler(Looper.getMainLooper()) ;
+    private long mLastChanged ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,11 +44,19 @@ public class InputActivity extends AppCompatActivity implements SuggestionFragme
     @Override
     public void afterTextChanged(Editable editable)
     {
-        Intent intent=new Intent(Settings.INTENT_ACTION_REFRESH) ;
-        intent.putExtra(Intent.EXTRA_TEXT,mEditText.getText().toString()) ;
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent) ;
-        // Ideally we should implement some kind of timer here to avoid
-        // looking up for suggestion too often
-        // mSuggestionFragment.refresh() ;
+        mLastChanged=System.currentTimeMillis() ;
+        mHandler.postDelayed(this,Settings.DELAY_LOOKUP) ;
+    }
+
+    @Override
+    public void run()
+    {
+        // Trigger refresh only if nothing has been typed for Settings.DELAY_LOOKUP millis
+        if(System.currentTimeMillis()-mLastChanged>=Settings.DELAY_LOOKUP)
+        {
+            Intent intent=new Intent(Settings.INTENT_ACTION_REFRESH);
+            intent.putExtra(Intent.EXTRA_TEXT,mEditText.getText().toString());
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        }
     }
 }

@@ -25,6 +25,7 @@ public class Settings
 
     public static final String SOURCE_ENCODING="UTF-8" ;
     public static final long DELAY_SYNC=5*1000 ; // synchronize every 5 seconds
+    public static final long DELAY_LOOKUP=500 ; // synchronize every 5 seconds
     public static final int MAX_LOOKUP_RESULTS=100 ; // maximum number of result to return when doing a lookup
 
     public static File getWordSourceFile()
