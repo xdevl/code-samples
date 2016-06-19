@@ -43,9 +43,9 @@ public class SuggestService extends Service implements Runnable
         while(true)
         {
             try {
+                Thread.sleep(Settings.DELAY_SYNC) ;
                 wordDao.populate(Settings.geSourcetWordIterator()) ;
                 Log.i(SuggestService.class.getSimpleName(),"Successfully parsed word file at "+sourceFile.getAbsolutePath()+" :)") ;
-                Thread.sleep(Settings.DELAY_SYNC) ;
             } catch(FileNotFoundException e) {
                 Log.i(SuggestService.class.getSimpleName(),"Word file not found at "+sourceFile.getAbsolutePath()+" '-_-") ;
             } catch(IOException e) {
