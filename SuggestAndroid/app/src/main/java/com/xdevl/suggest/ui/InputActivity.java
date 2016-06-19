@@ -13,7 +13,7 @@ import com.xdevl.suggest.R;
 import com.xdevl.suggest.Settings;
 import com.xdevl.suggest.service.SuggestService;
 
-public class InputActivity extends AppCompatActivity implements SuggestionFragment.InputProvider, TextWatcher, Runnable
+public class InputActivity extends AppCompatActivity implements TextWatcher, Runnable
 {
     private EditText mEditText ;
     private final Handler mHandler=new Handler(Looper.getMainLooper()) ;
@@ -27,12 +27,6 @@ public class InputActivity extends AppCompatActivity implements SuggestionFragme
         mEditText=(EditText)findViewById(R.id.input) ;
         mEditText.addTextChangedListener(this);
         startService(new Intent(this,SuggestService.class)) ;
-    }
-
-    @Override
-    public String getInput()
-    {
-        return mEditText!=null?mEditText.getText().toString():"" ;
     }
 
     @Override

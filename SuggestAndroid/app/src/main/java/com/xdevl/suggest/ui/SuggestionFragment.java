@@ -1,5 +1,6 @@
 package com.xdevl.suggest.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,9 +22,13 @@ import java.util.List;
 
 public class SuggestionFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Word>>
 {
-    public interface InputProvider
+    public static SuggestionFragment create(String value)
     {
-        String getInput() ;
+        Bundle bundle=new Bundle() ;
+        bundle.putString(Intent.EXTRA_TEXT,value) ;
+        SuggestionFragment fragment=new SuggestionFragment() ;
+        fragment.setArguments(bundle) ;
+        return fragment ;
     }
 
     private WordDao mWordDao ;
@@ -56,7 +61,7 @@ public class SuggestionFragment extends Fragment implements LoaderManager.Loader
     public Loader<List<Word>> onCreateLoader(int id,Bundle args)
     {
         return new SuggestionLoader(getContext(),mWordDao,
-                getActivity()instanceof InputProvider?((InputProvider)getActivity()).getInput():"") ;
+                getArguments()!=null?getArguments().getString(Intent.EXTRA_TEXT):"") ;
     }
 
     @Override

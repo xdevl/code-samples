@@ -33,6 +33,7 @@ public class SuggestionLoader extends AsyncTaskLoader<List<Word>>
     } ;
 
     private final WordDao mWordDao ;
+    private final boolean mListenForChange ;
     private boolean mRegistered ;
     public String mValue ;
     private Exception mException ;
@@ -43,6 +44,7 @@ public class SuggestionLoader extends AsyncTaskLoader<List<Word>>
         super(context) ;
         mWordDao=wordDao ;
         mValue=value ;
+        mListenForChange=value==null || value.isEmpty() ;
     }
 
     @Override
@@ -65,7 +67,7 @@ public class SuggestionLoader extends AsyncTaskLoader<List<Word>>
             forceLoad() ;
         else deliverResult(mResult) ;
 
-        if(!mRegistered)
+        if(mListenForChange && !mRegistered)
         {
             LocalBroadcastManager.getInstance(getContext())
                     .registerReceiver(receiver,new IntentFilter(Settings.INTENT_ACTION_REFRESH)) ;
@@ -76,8 +78,12 @@ public class SuggestionLoader extends AsyncTaskLoader<List<Word>>
     @Override
     protected void onReset()
     {
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver) ;
-        mRegistered=false ;
+        mResult=null ;
+        if(mListenForChange)
+        {
+            LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
+            mRegistered=false;
+        }
     }
 
     public Exception getException()

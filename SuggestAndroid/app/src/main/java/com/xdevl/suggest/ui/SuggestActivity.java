@@ -10,7 +10,7 @@ import com.xdevl.suggest.bean.Word;
 import com.xdevl.suggest.service.SuggestService;
 import com.xdevl.suggest.R;
 
-public class SuggestActivity extends AppCompatActivity implements SuggestionFragment.InputProvider, WordAdapter.OnSelectListener
+public class SuggestActivity extends AppCompatActivity implements WordAdapter.OnSelectListener
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -19,7 +19,8 @@ public class SuggestActivity extends AppCompatActivity implements SuggestionFrag
         setContentView(R.layout.activity_suggest);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true) ;
         if(savedInstanceState==null)
-            getSupportFragmentManager().beginTransaction().add(R.id.content,new SuggestionFragment()).commit() ;
+            getSupportFragmentManager().beginTransaction().add(R.id.content,
+                    SuggestionFragment.create(getIntent().getStringExtra(Intent.EXTRA_TEXT))).commit() ;
         startService(new Intent(this,SuggestService.class)) ;
     }
 
@@ -34,12 +35,6 @@ public class SuggestActivity extends AppCompatActivity implements SuggestionFrag
             default: return super.onOptionsItemSelected(item) ;
         }
         return true ;
-    }
-
-    @Override
-    public String getInput()
-    {
-        return getIntent().getStringExtra(Intent.EXTRA_TEXT) ;
     }
 
     @Override
