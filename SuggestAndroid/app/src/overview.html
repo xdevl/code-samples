@@ -1,0 +1,68 @@
+<HTML>
+<BODY>
+Suggestion app
+<p>
+<h1>Design choices and assumptions</h1>
+<ul>
+<li>No storage or parsing libraries have been used to comply to the Android agnosticity requirement. There are obviously android agnostic version of such libraries but if using them there wouldn't be much to implement in the business logic.</li>
+<li>Words will be read at a specific location from the device file storage, usually: /mnt/sdcard/words.txt (the exact file path is regularly echoed to adb). This file has to be UTF-8 plain text and complying to the format described in {@link com.xdevl.suggest.model.iterator.WordReaderIterator}.</li>
+<li>Because a specific synchronisation delay is given, we assume the whole source file need to be parsed at each iteration which won't be ideal in the real world (ie: we would just monitor for changes instead of parsing multiple times the same content)</li>
+<li>Word parsing and lookup are synchronized</li>
+<li>The number of maximum displayed suggestions is fixed to 100</li>
+<li>Words are automatically converted to lower case and suggestions won't show duplicates even if the original source file has</li>
+</ul>
+
+<h1>Design</h1>
+The core design relies on 3 main interfaces:
+<ul>
+	<li>{@link com.xdevl.suggest.model.dao.WordDao}: to abstract how words are persisted and how lookup are done</li> 
+	<li>{@link com.xdevl.suggest.model.iterator.IOIterator}: to abstract how words are provided</li>
+	<li>{@link com.xdevl.suggest.model.streamer.Streamer}: to abstract read and write of characters streams given a specific encoding</li>
+</ul>
+The following implementations of those interfaces have been created in order to meet the technical requirements:
+<ul>
+	<li>{@link com.xdevl.suggest.model.dao.WordStreamerDao}: persist and read words using a {@link com.xdevl.suggest.model.streamer.Streamer}</li> 
+	<li>{@link com.xdevl.suggest.model.iterator.WordReaderIterator}: parse a list of word from a {@link com.xdevl.suggest.model.streamer.Streamer}</li>
+	<li>{@link com.xdevl.suggest.model.streamer.FileStreamer}: provide read and write streams to a simple file</li>
+</ul>
+In terms of android components we have the following:
+<ul>
+	<li>{@link com.xdevl.suggest.service.SuggestService}: standard android background service synchonizing words every 5 seconds</li> 
+	<li>{@link com.xdevl.suggest.ui.SuggestionFragment}: a fragment to display a list of words</li>
+	<li>{@link com.xdevl.suggest.ui.InputActivity}: activity querying the user to input something before to show a list of suggestions</li>
+	<li>{@link com.xdevl.suggest.ui.SuggestActivity}: activity prompting the user to pick a suggestion from a list and returns back the result</li>
+</ul>
+
+<h1>Build and test</h1>
+<p>
+	In order to buil the application you will need Java 1.7+, the android sdk (buildToolsVersion: 23.0.3) and the android support repository (revision 23)
+</p>
+To build:
+<pre>gradlew build</pre>
+To run all unit tests:
+<pre>gradlew test</pre>
+To deploy on a device:
+<pre>gradlew installDebug</pre>
+To generate javadoc:
+<pre>javadoc -d javadoc -sourcepath app/src/main/java/ -subpackages com.xdevl.suggest -overview app/src/overview.html</pre>
+To launch the suggestion picker activity using adb:
+<pre>adb shell am start -a com.xdevl.suggest.action.ACTION_PICK -t text/plain -e android.intent.extra.TEXT your-text</pre>
+To launch the suggestion picker from your code:
+<pre>
+Intent intent=new Intent("com.xdevl.suggest.action.ACTION_PICK") ;
+intent.setType("text/plain") ;
+intent.putExtra(Intent.EXTRA_TEXT,"your text") ;
+startActivityForResult(intent,requestCode) ;
+</pre>
+
+<h1>Libraries and tools</h1>
+<ul>
+<li>Gradle to build and download dependencies from the internet</li>
+<li>Android support libraries to use new android components while still supporting previous versions</li>
+<li>JUnit for testing</li>
+<li>Javadoc for documentation (but you probably already guessed)</li>
+</ul>
+
+
+</BODY>
+</HTML>
