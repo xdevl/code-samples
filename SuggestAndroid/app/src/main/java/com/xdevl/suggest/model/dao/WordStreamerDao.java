@@ -5,7 +5,10 @@ import com.xdevl.suggest.model.iterator.IOIterator;
 import com.xdevl.suggest.model.iterator.WordReaderIterator;
 import com.xdevl.suggest.model.streamer.Streamer;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +28,7 @@ public class WordStreamerDao implements WordDao
     }
 
     @Override
-    public List<Word> lookup(String value, int max) throws IOException
+    public List<Word> lookup(String value,int max) throws IOException
     {
         // We start with a set as we don't want to return duplicates
         Set<Word> results=new HashSet<>() ;

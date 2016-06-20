@@ -62,7 +62,7 @@ public class WordStreamerDaoTest
     }
 
     @Test
-    public void MultipleMatchLookup() throws IOException
+    public void multipleMatchLookup() throws IOException
     {
         WordDao wordDao=new WordStreamerDao(new MemoryStreamer()) ;
         wordDao.populate(new WordReaderIterator(new StringReader("red\ngreen\nblue\ngrey"))) ;
@@ -73,7 +73,7 @@ public class WordStreamerDaoTest
     }
 
     @Test
-    public void MaxMatchLookup() throws IOException
+    public void maxMatchLookup() throws IOException
     {
         WordDao wordDao=new WordStreamerDao(new MemoryStreamer()) ;
         wordDao.populate(new WordReaderIterator(new StringReader("red\ngreen\nblue\ngrey"))) ;
@@ -82,7 +82,7 @@ public class WordStreamerDaoTest
     }
 
     @Test
-    public void DuplicateLookup() throws IOException
+    public void duplicateLookup() throws IOException
     {
         WordDao wordDao=new WordStreamerDao(new MemoryStreamer()) ;
         wordDao.populate(new WordReaderIterator(new StringReader("red\ngreen\nblue\nred"))) ;
@@ -92,7 +92,7 @@ public class WordStreamerDaoTest
     }
 
     @Test
-    public void CaseSensitivityLookup() throws IOException
+    public void caseSensitivityLookup() throws IOException
     {
         WordDao wordDao=new WordStreamerDao(new MemoryStreamer()) ;
         wordDao.populate(new WordReaderIterator(new StringReader("red\ngreen\nbLuE\nred"))) ;

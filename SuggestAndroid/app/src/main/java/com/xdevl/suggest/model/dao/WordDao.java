@@ -19,7 +19,7 @@ public interface WordDao
      * @return a list of words starting with {@code value}. If {@code value} is empty or null, an empty list will be returned
      * @throws IOException if the call failed to complete normally
      */
-    List<Word> lookup(String value, int max) throws IOException ;
+    List<Word> lookup(String value,int max) throws IOException ;
 
     /**
      * Populate the bank of words, old existing words will be discarded. All words are stored as lower case.
@@ -29,7 +29,7 @@ public interface WordDao
      */
     void populate(IOIterator<Word> iterator) throws IOException ;
 
-    /** Returns an {@link IOIterator<Word>} to this bank of words.
+    /** Returns an {@link IOIterator < Word >} to this bank of words.
      * No assumption can be made about the words order.
      * @return an iterator to this bank of words
      * @throws IOException if the call failed to complete normally

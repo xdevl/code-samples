@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-import com.xdevl.suggest.R;
 import com.xdevl.suggest.service.SuggestService;
+import com.xdevl.suggest.R;
 
 public class InputActivity extends AppCompatActivity implements SuggestionFragment.InputProvider, TextWatcher
 {

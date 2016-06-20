@@ -16,7 +16,7 @@ public class MemoryStreamerTest
     public ExpectedException mExpectedException=ExpectedException.none() ;
 
     @Test
-    public void WriteRead() throws IOException
+    public void writeRead() throws IOException
     {
         Streamer streamer=new MemoryStreamer() ;
         String str="Hello World" ;
@@ -28,7 +28,7 @@ public class MemoryStreamerTest
     }
 
     @Test
-    public void OutOfMemory() throws IOException
+    public void outOfMemory() throws IOException
     {
         mExpectedException.expect(IOException.class) ;
         mExpectedException.expectMessage("Out of memory") ;

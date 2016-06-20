@@ -60,7 +60,7 @@ public class SuggestionFragment extends Fragment implements LoaderManager.Loader
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Word>> loader, List<Word> data)
+    public void onLoadFinished(Loader<List<Word>> loader,List<Word> data)
     {
         Exception exception=loader instanceof SuggestionLoader?((SuggestionLoader)loader).getException():null ;
         if(exception!=null)

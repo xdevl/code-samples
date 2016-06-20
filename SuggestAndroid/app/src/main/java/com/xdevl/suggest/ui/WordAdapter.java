@@ -5,8 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.xdevl.suggest.R;
 import com.xdevl.suggest.bean.Word;
+import com.xdevl.suggest.R;
 
 import java.util.ArrayList;
 import java.util.List;

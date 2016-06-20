@@ -1,6 +1,8 @@
 package com.xdevl.suggest.model.streamer;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 
 /**
  * Generic interface to stream characters from a storage medium.

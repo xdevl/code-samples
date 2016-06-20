@@ -9,7 +9,10 @@ import com.xdevl.suggest.model.iterator.IOIterator;
 import com.xdevl.suggest.model.iterator.WordReaderIterator;
 import com.xdevl.suggest.model.streamer.FileStreamer;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Holds constants and various other static application settings.
