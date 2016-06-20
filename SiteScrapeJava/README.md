@@ -9,6 +9,7 @@ This application uses the following technologies:
 # Build instruction
 In order to buil the application you will need Java 1.7+ installed locally and an internet connection to fetch the project dependencies
 
+# Instructions
 To build, simply run at the root of the project:
 ```markdown
 gradlew build
